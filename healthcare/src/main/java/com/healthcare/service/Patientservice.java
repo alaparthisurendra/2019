@@ -31,6 +31,11 @@ public class Patientservice {
 	 * 
 	 * }
 	 */
+	 public List<Patient> getAllPatients() { 
+		 List<Patient> patient = new ArrayList<>();
+			 patientRepository.findAll().forEach(patient::add); 
+			 return patient; 
+	 }
 
 	// find patients by hospital id
 	public List<Patient> getAllPatients(Long id) {
@@ -42,6 +47,9 @@ public class Patientservice {
 
 	public Patient findByPatientId(Long id) {
 		return patientRepository.getOne(id);
+	}
+	public List<Patient> findByPatientGender(String gender) {
+		return patientRepository.findByGender(gender);
 	}
 
 	public Patient save(Patient patient) {

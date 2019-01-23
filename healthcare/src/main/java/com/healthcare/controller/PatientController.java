@@ -3,6 +3,7 @@ package com.healthcare.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class PatientController {
 	@Autowired
 	Patientservice patientService;
 
-	/*@GetMapping("/patients")
+	@GetMapping("/patients")
 	public ResponseEntity<List<Patient>> getAllPatients() {
 		List<Patient> allPatients = patientService.getAllPatients();
 		if (allPatients == null) {
@@ -36,8 +37,8 @@ public class PatientController {
 		return ResponseEntity.ok(allPatients);
 	}
 
-	@GetMapping("/patients/{id}")
-	public ResponseEntity<Patient> getPatientById(@PathVariable(value = "id") final Long id) {
+	/*@GetMapping("/patients/{id}")
+	public ResponseEntity<Patient> getPatientById(@PathVariable(value = "id") Long id) {
 		Patient pat = patientService.findByPatientId(id);
 		if (pat == null) {
 			return ResponseEntity.notFound().build();
@@ -45,6 +46,18 @@ public class PatientController {
 		return ResponseEntity.ok(pat);
 
 	}*/
+	
+	@GetMapping("/patients/{gender}")
+	public ResponseEntity<List<Patient>> getPatientByGender(@QueryParam("gender") String gender)
+	{
+		List<Patient> patientsbygender=patientService.findByPatientGender(gender);
+		if(patientsbygender == null)
+		{
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(patientsbygender);
+		
+	}
 	
 	@GetMapping("/hospitals/{id}/patients")
 	public ResponseEntity<List<Patient>> getAllPatients(@PathVariable long id) {
@@ -66,14 +79,14 @@ public class PatientController {
 	}
 	
 	@PostMapping("/hospitals/{hospitalid}/patients/")
-	public ResponseEntity<Patient> addPatient(@RequestBody Patient patient, @PathVariable Long pid ) {
+	public ResponseEntity<Patient> addPatient(@RequestBody Patient patient, @PathVariable Long id ) {
 		Patient addPatient=new Patient();
-		addPatient.setId(addPatient.getId());
-		addPatient.setName(addPatient.getName());
-		addPatient.setDateofbirth(addPatient.getDateofbirth());
-		addPatient.setGender(addPatient.getGender());
-		addPatient.setHospital(addPatient.getHospital());
-	    addPatient.setExamination(addPatient.getExamination());
+		addPatient.setId(patient.getId());
+		addPatient.setName(patient.getName());
+		addPatient.setDateofbirth(patient.getDateofbirth());
+		addPatient.setGender(patient.getGender());
+		addPatient.setHospital(patient.getHospital());
+	    addPatient.setExamination(patient.getExamination());
 		//Hospital addHosp = hospitalservice.save(addHospital);
 		Patient addPat = patientService.save(patient);
 		return ResponseEntity.ok().body(addPat);
@@ -81,9 +94,9 @@ public class PatientController {
 	}
 	
 	@PutMapping("/hospitals/{hospitalid}/patients/{id}/")
-	public ResponseEntity<Patient> updatePatient(@PathVariable Long hospitalidd, @PathVariable Long Id,
+	public ResponseEntity<Patient> updatePatient(@PathVariable Long hospitalidd, @PathVariable Long id,
 			@Valid @RequestBody Patient patDetails) {
-		Patient ps = patientService.updatePatient(patDetails);
+		Patient ps = patientService.findByPatientId(id);
 		if (ps == null) {
 			return ResponseEntity.notFound().build();
 		}

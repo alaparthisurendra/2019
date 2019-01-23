@@ -18,10 +18,20 @@ public class ExaminationSerivce {
 	public Examination save(Examination examination) {
 		return examinationRepository.save(examination);
 	}
-
-	public List<Examination> getAllExaminations() {
+	public Examination update(Examination examination) {
+		return examinationRepository.save(examination);
+	}
+	public List<Examination> getAllExaminations()
+	{
 		List<Examination> examination=new ArrayList<>();
 		examinationRepository.findAll().forEach(examination::add);
+		return examination;
+		
+	}
+
+	public List<Examination> getAllExaminations(Long id) {
+		List<Examination> examination=new ArrayList<>();
+		examinationRepository.findByPatientId(id).forEach(examination::add);
 		return examination;
 		//return examinationRepository.findAll();
 	}
