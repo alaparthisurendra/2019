@@ -18,16 +18,15 @@ import javax.persistence.Table;
 public class Hospital {
 	@Id
 	@Column(name = "hospital_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "description")
 	private String description;
 
-	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
-	//@OneToMany(mappedBy = "hospital", fetch=FetchType.EAGER,cascade = CascadeType.ALL)
-	// @OnDelete(action = OnDeleteAction.CASCADE)
+	//@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "hospital", fetch=FetchType.EAGER,cascade = CascadeType.ALL)
 	private List<Patient> patient;
 	
 

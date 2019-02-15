@@ -1,4 +1,4 @@
-package com.healthcare.model;
+package com.philips.philipshealthcare.model;
 
 import java.util.Date;
 
@@ -7,50 +7,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 @Entity
-@Table(name = "examination_tbl")
+@Table(name="Examination")
 public class Examination {
 	@Id
-	@Column(name = "examination_id")
+	@Column(name = "eid")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private long eid;
 
-	@Column
+	@Column(name="examdate")
 	@Temporal(TemporalType.DATE)
 	private Date examDate;
 
 	@Column(name = "name")
 	private String name;
+	
 	@Column(name = "description")
 	private String description;
+	
 	@Column(name = "weight")
 	private Double weight;
+	
 	@Column(name = "height")
 	private Integer height;
-
-	@ManyToOne
-	//@JoinColumn(name = "patient_id")
-	@JoinColumns({
-		@JoinColumn(name="exam_id", referencedColumnName="patient_id")
-	})
-	private Patient patient;
 	
+	@ManyToMany(mappedBy="examinations")
+	private Patient patient;
 
-	public Examination() {
-		super();
-	}
-
-	public Examination(long id, Date examDate, String name, String description, Double weight, Integer height,
+	public Examination(long eid, Date examDate, String name, String description, Double weight, Integer height,
 			Patient patient) {
 		super();
-		this.id = id;
+		this.eid = eid;
 		this.examDate = examDate;
 		this.name = name;
 		this.description = description;
@@ -59,12 +50,16 @@ public class Examination {
 		this.patient = patient;
 	}
 
-	public Long getId() {
-		return id;
+	public Examination() {
+		super();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public long getEid() {
+		return eid;
+	}
+
+	public void setEid(long eid) {
+		this.eid = eid;
 	}
 
 	public Date getExamDate() {
@@ -114,5 +109,8 @@ public class Examination {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
+
+	
+	
 
 }
