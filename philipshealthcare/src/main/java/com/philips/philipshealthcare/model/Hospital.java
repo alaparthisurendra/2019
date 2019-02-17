@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,17 +22,16 @@ public class Hospital {
 	
 	@Id
 	@Column(name="hid")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long hid;
 	@Column(name="name")
 	private String name;
 	@Column(name="description")
 	private String description;
 	
-	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinTable(name="hospital_patient",
-	joinColumns=@JoinColumn(name="hos_id", referencedColumnName="hid"), 
-	inverseJoinColumns=@JoinColumn(name="pat_id", referencedColumnName="pid"))
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "hospital_patient", joinColumns = { @JoinColumn(name = "hospital_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "patient_id") })
 	private List<Patient> patients;
 
 	public Hospital(Long hid, String name, String description, List<Patient> patients) {

@@ -2,8 +2,9 @@ package com.philips.philipshealthcare.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.philips.philipshealthcare.model.Hospital;
@@ -13,11 +14,11 @@ import com.philips.philipshealthcare.repository.HospitalRepository;
 public class HospitalService {
 	
 	@Autowired
-	@Qualifier("hospitalRepository")
 	HospitalRepository hospitalRepository;
 	
-	public Hospital save(Hospital hospitals) {
-		return hospitalRepository.save(hospitals);
+	
+	public Hospital addHospital(Hospital hospital) {
+		return hospitalRepository.save(hospital);
 	}
  
 	public List<Hospital> getAllHospitals()
@@ -27,15 +28,17 @@ public class HospitalService {
 		return hospital;
 	}
 	
-	public Hospital findById(long hid)
-	{
-		//hospitalRepository.findById(hid).map(q->q).orElseThrow(()->new RuntimeException("ID not found"));
-		
-		return hospitalRepository.getOne(hid);
+	public Optional<Hospital> getHospitalById(Long id) {
+		return hospitalRepository.findById(id);
 	}
 	
 	public void delete(long hid)
 	{
 		 hospitalRepository.deleteById(hid);
+	}
+	
+	public Hospital updateHospital(Long hid, Hospital hospital) {
+		hospital.setHid(hid);
+		return hospitalRepository.save(hospital);
 	}
 }

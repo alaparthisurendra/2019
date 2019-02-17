@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 public class Examination {
 	@Id
 	@Column(name = "eid")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long eid;
 
 	@Column(name="examdate")
@@ -34,12 +34,8 @@ public class Examination {
 	
 	@Column(name = "height")
 	private Integer height;
-	
-	@ManyToMany(mappedBy="examinations")
-	private Patient patient;
 
-	public Examination(long eid, Date examDate, String name, String description, Double weight, Integer height,
-			Patient patient) {
+	public Examination(long eid, Date examDate, String name, String description, Double weight, Integer height) {
 		super();
 		this.eid = eid;
 		this.examDate = examDate;
@@ -47,7 +43,6 @@ public class Examination {
 		this.description = description;
 		this.weight = weight;
 		this.height = height;
-		this.patient = patient;
 	}
 
 	public Examination() {
@@ -101,14 +96,7 @@ public class Examination {
 	public void setHeight(Integer height) {
 		this.height = height;
 	}
-
-	public Patient getPatient() {
-		return patient;
-	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
+	
 
 	
 	
