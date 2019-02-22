@@ -1,7 +1,7 @@
 package com.philips.philipshealthcare.model;
 
 import java.util.List;
-
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,19 +21,20 @@ public class Hospital {
 	
 	@Id
 	@Column(name="hid")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long hid;
 	@Column(name="name")
 	private String name;
 	@Column(name="description")
 	private String description;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "hospital_patient", joinColumns = { @JoinColumn(name = "hospital_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "patient_id") })
-	private List<Patient> patients;
+	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinTable(name="hospital_patient",
+	joinColumns=@JoinColumn(name="hos_id", referencedColumnName="hid"), 
+	inverseJoinColumns=@JoinColumn(name="pat_id", referencedColumnName="pid"))
+	private Set<Patient> patients;
 
-	public Hospital(Long hid, String name, String description, List<Patient> patients) {
+	public Hospital(Long hid, String name, String description, Set<Patient> patients) {
 		super();
 		this.hid = hid;
 		this.name = name;
@@ -70,11 +70,11 @@ public class Hospital {
 		this.description = description;
 	}
 
-	public List<Patient> getPatients() {
+	public Set<Patient> getPatients() {
 		return patients;
 	}
 
-	public void setPatients(List<Patient> patients) {
+	public void setPatients(Set<Patient> patients) {
 		this.patients = patients;
 	}
 	

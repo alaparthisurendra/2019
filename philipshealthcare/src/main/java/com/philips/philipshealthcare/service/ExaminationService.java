@@ -2,13 +2,11 @@ package com.philips.philipshealthcare.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.philips.philipshealthcare.model.Examination;
-import com.philips.philipshealthcare.model.Hospital;
 import com.philips.philipshealthcare.repository.ExaminationRepository;
 
 @Service
@@ -17,9 +15,9 @@ public class ExaminationService {
 	@Autowired
 	ExaminationRepository examinationRepository;
 	
-	public Examination addExamination(Examination examination)
+	public Examination save(Examination examinations)
 	{
-		return examinationRepository.save(examination);
+		return examinationRepository.save(examinations);
 		
 	}
 	public List<Examination> getAllExaminations()
@@ -30,18 +28,13 @@ public class ExaminationService {
 		
 	}
     
-	public Optional<Examination> GetExaminationById(Long id) {
-		return examinationRepository.findById(id);
+	public Examination findById(long eid)
+	{
+		return examinationRepository.getOne(eid);
 	}
-
 	
 	public void delete(long eid)
 	{
 		examinationRepository.deleteById(eid);
-	}
-	
-	public Examination updateExamination(Long eid, Examination examination) {
-		examination.setEid(eid);
-		return examinationRepository.save(examination);
 	}
 }

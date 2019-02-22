@@ -2,7 +2,6 @@ package com.philips.philipshealthcare.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +15,10 @@ public class PatientService {
 	@Autowired
 	PatientRepository patientRepository;
 	
-	public Patient addPatient(Patient patient) {
-		return patientRepository.save(patient);
+	public Patient save(Patient patients)
+	{
+		return patientRepository.save(patients);
+		
 	}
 	
 	public List<Patient> getAllPatients()
@@ -35,18 +36,14 @@ public class PatientService {
 		
 	}
 
-	public Optional<Patient> getPatientById(Long id) {
-		return patientRepository.findById(id);
+	public Patient findById(long pid) {
+		return patientRepository.getOne(pid);
+		
 	}
 	
 	public void Delete(Long pid)
 	{
 		patientRepository.deleteById(pid);
-	}
-	
-	public Patient updatePatient(Long pid, Patient patient) {
-		patient.setPid(pid);
-	return	patientRepository.save(patient);
 	}
 	
 }
